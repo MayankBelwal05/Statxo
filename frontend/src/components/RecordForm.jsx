@@ -1,19 +1,30 @@
-import { useState } from 'react';
-import { Box, Input, Button, VStack } from '@chakra-ui/react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from '@chakra-ui/react';
 
-const RecordForm = ({ onClose }) => {
+const RecordForm = ({ onSubmit, onClose }) => {
   const [formData, setFormData] = useState({
     id: '',
     quantity: '',
-    amount: '',
-    postingYear: '',
-    postingMonth: '',
-    actionType: '',
+    amount: '',  
+    postingYear: 2024,
+    postingMonth: 'July',
+    actionType: 'Type 1', // Default value for actionType
     actionNumber: '',
-    actionName: '',
+    actionName: 'Action 1', // Default value for actionName
+    impact: 'Low',
     status: 'Pending',
-    impact: '',
   });
 
   const handleChange = (e) => {
@@ -21,32 +32,91 @@ const RecordForm = ({ onClose }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleNumberChange = (value, name) => {
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmitForm = (e) => {
     e.preventDefault();
-    try {
-      await axios.post('http://localhost:5000/api/records', formData);
-      onClose();
-    } catch (error) {
-      console.error(error);
-    }
+    onSubmit(formData);
   };
 
   return (
-    <Box as="form" onSubmit={handleSubmit}>
-      <VStack spacing="4">
-        <Input name="id" placeholder="ID" value={formData.id} onChange={handleChange} />
-        <Input name="quantity" placeholder="Quantity" value={formData.quantity} onChange={handleChange} />
-        <Input name="amount" placeholder="Amount" value={formData.amount} onChange={handleChange} />
-        <Input name="postingYear" placeholder="Posting Year" value={formData.postingYear} onChange={handleChange} />
-        <Input name="postingMonth" placeholder="Posting Month" value={formData.postingMonth} onChange={handleChange} />
-        <Input name="actionType" placeholder="Action Type" value={formData.actionType} onChange={handleChange} />
-        <Input name="actionNumber" placeholder="Action Number" value={formData.actionNumber} onChange={handleChange} />
-        <Input name="actionName" placeholder="Action Name" value={formData.actionName} onChange={handleChange} />
-        <Input name="impact" placeholder="Impact" value={formData.impact} onChange={handleChange} />
-        <Button type="submit" colorScheme="teal">
-          Add Record
+    <Box p="4">
+      <form onSubmit={handleSubmitForm}>
+        <FormControl>
+          <FormLabel>ID</FormLabel>
+          <NumberInput value={formData.id} onChange={(value) => handleNumberChange(value, 'id')}>
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Quantity</FormLabel>
+          <NumberInput value={formData.quantity} onChange={(value) => handleNumberChange(value, 'quantity')}>
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Amount</FormLabel>
+          <NumberInput value={formData.amount} onChange={(value) => handleNumberChange(value, 'amount')}>
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Posting Year</FormLabel>
+          <Input type="text" name="postingYear" value={formData.postingYear} onChange={handleChange} readOnly />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Posting Month</FormLabel>
+          <Input type="text" name="postingMonth" value={formData.postingMonth} onChange={handleChange} readOnly />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Action Type</FormLabel>
+          <Select name="actionType" value={formData.actionType} onChange={handleChange}>
+            <option value="Type 1">Type 1</option>
+            <option value="Type 2">Type 2</option>
+            <option value="Type 3">Type 3</option>
+          </Select>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Action Number</FormLabel>
+          <Input type="text" name="actionNumber" value={formData.actionNumber} onChange={handleChange} />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Action Name</FormLabel>
+          <Select name="actionName" value={formData.actionName} onChange={handleChange}>
+            <option value="Action 1">Action 1</option>
+            <option value="Action 2">Action 2</option>
+            <option value="Action 3">Action 3</option>
+          </Select>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Impact</FormLabel>
+          <Select name="impact" value={formData.impact} onChange={handleChange}>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </Select>
+        </FormControl>
+        <Button mt="4" colorScheme="teal" type="submit">
+          Save Record
         </Button>
-      </VStack>
+        <Button ml="4" onClick={onClose}>
+          Cancel
+        </Button>
+      </form>
     </Box>
   );
 };
