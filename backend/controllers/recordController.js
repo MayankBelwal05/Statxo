@@ -1,3 +1,4 @@
+// controllers/recordController.js
 const Record = require('../models/Record');
 
 const getRecords = async (req, res) => {
@@ -10,11 +11,13 @@ const getRecords = async (req, res) => {
 };
 
 const createRecord = async (req, res) => {
+  console.log('Request Body:', req.body); // Log the request body
   const record = new Record(req.body);
   try {
     const newRecord = await record.save();
     res.status(201).json(newRecord);
   } catch (error) {
+    console.error('Error creating record:', error); // Log the error
     res.status(400).json({ message: error.message });
   }
 };
