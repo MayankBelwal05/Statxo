@@ -1,7 +1,6 @@
-import Navbar from '../components/Navbar';
-import RecordTable from '../components/RecordTable';
+import React, { useState } from 'react';
 import { Box, Button } from '@chakra-ui/react';
-import { useState } from 'react';
+import RecordTable from '../components/RecordTable';
 import RecordForm from '../components/RecordForm';
 
 const UserPage = () => {

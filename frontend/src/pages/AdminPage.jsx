@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import { Box, Button } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import RecordTable from '../components/RecordTable';
 import RecordForm from '../components/RecordForm';
 

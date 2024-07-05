@@ -4,6 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 const Navbar = ({ isLoggedIn, isAdmin, handleLogout }) => {
   const navigate = useNavigate();
 
+  const handleLogoutClick = () => {
+    handleLogout();
+    navigate('/');
+  };
+
   return (
     <Flex as="nav" p="4" bg="gray.800" color="white">
       <Box>
@@ -16,7 +21,7 @@ const Navbar = ({ isLoggedIn, isAdmin, handleLogout }) => {
             <Button colorScheme="teal" mr="4" onClick={() => navigate(isAdmin ? '/admin' : '/user')}>
               {isAdmin ? 'Admin' : 'User'} Page
             </Button>
-            <Button colorScheme="teal" onClick={handleLogout}>
+            <Button colorScheme="teal" onClick={handleLogoutClick}>
               Logout
             </Button>
           </>
