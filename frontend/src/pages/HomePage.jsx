@@ -1,14 +1,13 @@
-import Navbar from '../components/Navbar';
-import { Box, Center, Flex } from '@chakra-ui/react';
+import { Box, Flex ,Text} from '@chakra-ui/react';
 
-const HomePage = () => (
-  <Box bg="black" color="white" minHeight="100vh" fontSize="64px" textAlign="Center"> 
-   
-    <Box p="4">
-      <h1>Welcome to the Home Page</h1>
-     
-    </Box>
-  </Box>
-);
+const HomePage = () => {
+  return (
+    <Flex bg="lightblue" color="black" minHeight="100vh" fontSize="98px" textAlign="center" alignItems="center" justifyContent="center"  fontFamily="sans-serif">
+      <Box p="4">
+        <Text> S T A T X O</Text>
+      </Box>
+    </Flex>
+  );
+};
 
 export default HomePage;

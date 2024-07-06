@@ -1,18 +1,38 @@
-import { Box, Button, Flex, Spacer } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { Box, Button, Flex, Spacer, Text } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = ({ isLoggedIn, isAdmin, handleLogout }) => {
+const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogoutClick = () => {
-    handleLogout();
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setIsAdmin(false);
     navigate('/');
+  };
+
+  const handleLoginAsUser = () => {
+    setIsLoggedIn(true);
+    setIsAdmin(false);
+    navigate('/user');
+  };
+
+  const handleLoginAsAdmin = () => {
+    setIsLoggedIn(true);
+    setIsAdmin(true);
+    navigate('/admin');
   };
 
   return (
     <Flex as="nav" p="4" bg="gray.800" color="white">
       <Box>
-        <Link to="/"><h1>Home</h1></Link>
+        <Link to="/">
+          <Text fontSize="24px" fontWeight="bold" color="white" ml="8">
+            S T A T X O
+          </Text>
+        </Link>
       </Box>
       <Spacer />
       <Box>
@@ -21,20 +41,18 @@ const Navbar = ({ isLoggedIn, isAdmin, handleLogout }) => {
             <Button colorScheme="teal" mr="4" onClick={() => navigate(isAdmin ? '/admin' : '/user')}>
               {isAdmin ? 'Admin' : 'User'} Page
             </Button>
-            <Button colorScheme="teal" onClick={handleLogoutClick}>
+            <Button colorScheme="teal" onClick={handleLogout}>
               Logout
             </Button>
           </>
         ) : (
           <>
-            <Link to="/login-user">
-              <Button colorScheme="teal" mr="4">
-                Login as User
-              </Button>
-            </Link>
-            <Link to="/login-admin">
-              <Button colorScheme="teal">Login as Admin</Button>
-            </Link>
+            <Button colorScheme="teal" mr="4" onClick={handleLoginAsUser}>
+              Login as User
+            </Button>
+            <Button colorScheme="teal" onClick={handleLoginAsAdmin}>
+              Login as Admin
+            </Button>
           </>
         )}
       </Box>

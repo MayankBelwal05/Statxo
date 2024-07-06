@@ -5,6 +5,7 @@ import UserPage from './pages/UserPage';
 import Login from './components/Login';
 import { useState } from 'react';
 import Navbar from './components/Navbar';
+import './App.css'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

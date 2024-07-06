@@ -40,9 +40,10 @@ const UserPage = () => {
         {isAddingRecord ? (
           <RecordForm onSubmit={handleAddRecord} onClose={() => setIsAddingRecord(false)} />
         ) : (
-          <Button colorScheme="teal" onClick={() => setIsAddingRecord(true)}>
-            Add Record
-          </Button>
+          <Button mb="4" colorScheme="teal" onClick={() => setIsAddingRecord(true)} mx="auto" display="block">
+          Add Record
+        </Button>
+        
         )}
         <RecordTable records={records} isAdmin={false} />
       </Box>

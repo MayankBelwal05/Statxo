@@ -57,7 +57,7 @@ const AdminPage = () => {
         {isAddingRecord ? (
           <RecordForm onSubmit={handleSaveRecord} onClose={() => setIsAddingRecord(false)} />
         ) : (
-          <Button colorScheme="teal" onClick={() => setIsAddingRecord(true)}>
+          <Button mb="4" mx="auto" display="block" colorScheme="teal" onClick={() => setIsAddingRecord(true)}>
             Add Record
           </Button>
         )}

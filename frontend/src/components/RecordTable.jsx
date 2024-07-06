@@ -53,7 +53,7 @@ const RecordTable = ({ isAdmin }) => {
   };
 
   return (
-    <Box>
+    <Box p="6" bg="gray.100" borderRadius="md" boxShadow="md">
       {error && (
         <Alert status="error" mb="4">
           <AlertIcon />
@@ -66,19 +66,19 @@ const RecordTable = ({ isAdmin }) => {
           Record updated and saved.
         </Alert>
       )}
-      <Table variant="simple">
-        <Thead>
+      <Table variant="striped" colorScheme="teal">
+        <Thead bg="teal.500">
           <Tr>
-            <Th>ID</Th>
-            <Th>Quantity</Th>
-            <Th>Amount</Th>
-            <Th>Posting Year</Th>
-            <Th>Posting Month</Th>
-            <Th>Action Type</Th>
-            <Th>Action Number</Th>
-            <Th>Action Name</Th>
-            <Th>Status</Th>
-            <Th>Impact</Th>
+            <Th color="white" fontSize="16px">ID</Th>
+            <Th color="white" fontSize="16px">Quantity</Th>
+            <Th color="white" fontSize="16px">Amount</Th>
+            <Th color="white" fontSize="16px">Posting Year</Th>
+            <Th color="white" fontSize="16px">Posting Month</Th>
+            <Th color="white" fontSize="16px">Action Type</Th>
+            <Th color="white" fontSize="16px">Action Number</Th>
+            <Th color="white" fontSize="16px">Action Name</Th>
+            <Th color="white" fontSize="16px">Status</Th>
+            <Th color="white" fontSize="16px">Impact</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -89,12 +89,16 @@ const RecordTable = ({ isAdmin }) => {
                 <Input
                   value={editedRecords[record._id]?.quantity ?? record.quantity}
                   onChange={(e) => handleChange(e, record._id, 'quantity')}
+                  bg="white"
+                  width="50%"
                 />
               </Td>
               <Td>
                 <Input
                   value={editedRecords[record._id]?.amount ?? record.amount}
                   onChange={(e) => handleChange(e, record._id, 'amount')}
+                  bg="white"
+                  width="50%"
                 />
               </Td>
               <Td>{record.postingYear}</Td>
@@ -103,6 +107,8 @@ const RecordTable = ({ isAdmin }) => {
                 <Select
                   value={editedRecords[record._id]?.actionType ?? record.actionType}
                   onChange={(e) => handleChange(e, record._id, 'actionType')}
+                  bg="white"
+                  width="140%"
                 >
                   <option value="Type 1">Type 1</option>
                   <option value="Type 2">Type 2</option>
@@ -113,12 +119,16 @@ const RecordTable = ({ isAdmin }) => {
                 <Input
                   value={editedRecords[record._id]?.actionNumber ?? record.actionNumber}
                   onChange={(e) => handleChange(e, record._id, 'actionNumber')}
+                  bg="white"
+                  width="50%"
                 />
               </Td>
               <Td>
                 <Select
                   value={editedRecords[record._id]?.actionName ?? record.actionName}
                   onChange={(e) => handleChange(e, record._id, 'actionName')}
+                  bg="white"
+                  width="140%"
                 >
                   <option value="Action 1">Action 1</option>
                   <option value="Action 2">Action 2</option>
@@ -129,6 +139,8 @@ const RecordTable = ({ isAdmin }) => {
                 <Select
                   value={editedRecords[record._id]?.status ?? record.status}
                   onChange={(e) => handleChange(e, record._id, 'status')}
+                  bg="white"
+                  width="140%"
                   isDisabled={!isAdmin}
                 >
                   <option value="Pending">Pending</option>
@@ -141,13 +153,15 @@ const RecordTable = ({ isAdmin }) => {
                 <Input
                   value={editedRecords[record._id]?.impact ?? record.impact}
                   onChange={(e) => handleChange(e, record._id, 'impact')}
+                  bg="white"
+                  width="80%"
                 />
               </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
-      <Button mt="4" colorScheme="teal" onClick={handleSave}>
+      <Button mt="4" mx="auto" display="block" colorScheme="teal" onClick={handleSave}>
         Save All
       </Button>
     </Box>
