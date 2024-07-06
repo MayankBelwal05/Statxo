@@ -1,9 +1,10 @@
-// app.js
-
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const recordRoutes = require('./routes/recordRoutes');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const app = express();
 
@@ -11,15 +12,14 @@ app.use(cors());
 app.use(express.json());
 
 const connectDB = async () => {
-    try {
-      await mongoose.connect('mongodb+srv://mbelwal05:mbelwal05@cluster0.xdewbhu.mongodb.net/statxoApp?retryWrites=true&w=majority&appName=Cluster0');
-      console.log('MongoDB connected');
-    } catch (error) {
-      console.error('MongoDB connection error:', error);
-      process.exit(1);
-    }
-  };
-  
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    process.exit(1);
+  }
+};
 
 connectDB();
 app.use('/api', recordRoutes);
