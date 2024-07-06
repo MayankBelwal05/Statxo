@@ -22,6 +22,11 @@ const connectDB = async () => {
 };
 
 connectDB();
+
+app.get("/", (req, res) => {
+	res.json({ msg: "Check : Backend is running sucessfully and working fine" })
+})
+
 app.use('/api', recordRoutes);
 
 const PORT = process.env.PORT || 5000;

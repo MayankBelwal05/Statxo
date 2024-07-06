@@ -10,7 +10,7 @@ const RecordTable = ({ isAdmin }) => {
 
   const fetchRecords = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/records');
+      const response = await axios.get('https://statxo-013o.onrender.com/api/records');
       setRecords(response.data);
     } catch (err) {
       console.error('Error fetching records:', err);
@@ -37,7 +37,7 @@ const RecordTable = ({ isAdmin }) => {
         const originalRecord = records.find((rec) => rec._id === id);
         const updatedRecord = { ...originalRecord, ...editedRecords[id] };
         console.log('Sending data:', updatedRecord); 
-        return axios.patch(`http://localhost:5000/api/records/${id}`, updatedRecord);
+        return axios.patch(`https://statxo-013o.onrender.com/api/records/${id}`, updatedRecord);
       });
       await Promise.all(updates);
       setEditedRecords({});
@@ -67,7 +67,7 @@ const RecordTable = ({ isAdmin }) => {
         </Alert>
       )}
       <Table variant="striped" colorScheme="teal">
-        <Thead bg="teal.500">
+        <Thead bg="teal">
           <Tr>
             <Th color="white" fontSize="16px">ID</Th>
             <Th color="white" fontSize="16px">Quantity</Th>

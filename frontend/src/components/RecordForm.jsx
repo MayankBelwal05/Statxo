@@ -50,7 +50,7 @@ const RecordForm = ({ onSubmit, onClose }) => {
 
   const fetchRecords = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/records');
+      const response = await axios.get('https://statxo-013o.onrender.com/api/records');
       console.log('Fetched records:', response.data);
     } catch (error) {
       console.error('Error fetching records:', error);
@@ -130,7 +130,7 @@ const RecordForm = ({ onSubmit, onClose }) => {
   <Button colorScheme="teal" type="submit">
     Save Record
   </Button>
-  <Button ml="4" onClick={onClose}>
+  <Button ml="4" colorScheme="red" onClick={onClose}>
     Cancel
   </Button>
 </Flex>

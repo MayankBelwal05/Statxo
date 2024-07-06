@@ -16,7 +16,7 @@ const AdminPage = () => {
 
   const handleSaveRecord = async (formData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/records', {
+      const response = await fetch('https://statxo-013o.onrender.com/api/records', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ const AdminPage = () => {
 
   const fetchRecords = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/records');
+      const response = await fetch('https://statxo-013o.onrender.com/api/records');
       if (!response.ok) {
         throw new Error('Failed to fetch records');
       }

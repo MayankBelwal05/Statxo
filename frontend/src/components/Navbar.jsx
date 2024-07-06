@@ -26,11 +26,11 @@ const Navbar = () => {
   };
 
   return (
-    <Flex as="nav" p="4" bg="gray.800" color="white">
+    <Flex as="nav" p="4" bg="BLACK" color="white">
       <Box>
         <Link to="/">
           <Text fontSize="24px" fontWeight="bold" color="white" ml="8">
-            S T A T X O
+            S T A T X ⭕
           </Text>
         </Link>
       </Box>
@@ -41,16 +41,16 @@ const Navbar = () => {
             <Button colorScheme="teal" mr="4" onClick={() => navigate(isAdmin ? '/admin' : '/user')}>
               {isAdmin ? 'Admin' : 'User'} Page
             </Button>
-            <Button colorScheme="teal" onClick={handleLogout}>
+            <Button colorScheme="blue" onClick={handleLogout}>
               Logout
             </Button>
           </>
         ) : (
           <>
-            <Button colorScheme="teal" mr="4" onClick={handleLoginAsUser}>
+            <Button colorScheme="blue" mr="4" onClick={handleLoginAsUser}>
               Login as User
             </Button>
-            <Button colorScheme="teal" onClick={handleLoginAsAdmin}>
+            <Button colorScheme="blue" onClick={handleLoginAsAdmin}>
               Login as Admin
             </Button>
           </>

@@ -14,7 +14,7 @@ const UserPage = () => {
 
   const fetchRecords = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/records');
+      const response = await axios.get('https://statxo-013o.onrender.com/api/records');
       setRecords(response.data);
     } catch (error) {
       console.error('Error fetching records:', error);
@@ -23,7 +23,7 @@ const UserPage = () => {
 
   const handleAddRecord = async (formData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/records', formData);
+      const response = await axios.post('https://statxo-013o.onrender.com/api/records', formData);
       console.log('Record added successfully:', response.data);
       setRecords((prevRecords) => [...prevRecords, response.data]); 
       setIsAddingRecord(false); 
