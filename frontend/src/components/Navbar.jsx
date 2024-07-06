@@ -12,7 +12,7 @@ const Navbar = ({ isLoggedIn, isAdmin, handleLogout }) => {
   return (
     <Flex as="nav" p="4" bg="gray.800" color="white">
       <Box>
-        <Link to="/">Home</Link>
+        <Link to="/"><h1>Home</h1></Link>
       </Box>
       <Spacer />
       <Box>

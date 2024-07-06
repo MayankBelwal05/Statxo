@@ -12,17 +12,18 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react';
+import axios from 'axios';
 
 const RecordForm = ({ onSubmit, onClose }) => {
   const [formData, setFormData] = useState({
     id: '',
     quantity: '',
-    amount: '',  
+    amount: '',
     postingYear: 2024,
     postingMonth: 'July',
-    actionType: 'Type 1', // Default value for actionType
+    actionType: 'Type 1',
     actionNumber: '',
-    actionName: 'Action 1', // Default value for actionName
+    actionName: 'Action 1',
     impact: 'Low',
     status: 'Pending',
   });
@@ -36,9 +37,23 @@ const RecordForm = ({ onSubmit, onClose }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    try {
+      await onSubmit(formData); 
+      await fetchRecords();
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
+
+  const fetchRecords = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/records');
+      console.log('Fetched records:', response.data);
+    } catch (error) {
+      console.error('Error fetching records:', error);
+    }
   };
 
   return (

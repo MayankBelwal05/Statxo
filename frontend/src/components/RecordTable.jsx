@@ -1,16 +1,24 @@
-import { useState, useEffect } from 'react';
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Input, Select, Button } from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Input, Select, Button, Alert, AlertIcon } from '@chakra-ui/react';
 import axios from 'axios';
 
 const RecordTable = ({ isAdmin }) => {
   const [records, setRecords] = useState([]);
   const [editedRecords, setEditedRecords] = useState({});
+  const [error, setError] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
 
-  useEffect(() => {
-    const fetchRecords = async () => {
+  const fetchRecords = async () => {
+    try {
       const response = await axios.get('http://localhost:5000/api/records');
       setRecords(response.data);
-    };
+    } catch (err) {
+      console.error('Error fetching records:', err);
+      setError('Failed to fetch records. Please try again.');
+    }
+  };
+
+  useEffect(() => {
     fetchRecords();
   }, []);
 
@@ -23,17 +31,41 @@ const RecordTable = ({ isAdmin }) => {
   };
 
   const handleSave = async () => {
-    const updates = Object.keys(editedRecords).map((id) =>
-      axios.put(`http://localhost:5000/api/records/${id}`, editedRecords[id])
-    );
-    await Promise.all(updates);
-    const response = await axios.get('http://localhost:5000/api/records');
-    setRecords(response.data);
-    setEditedRecords({});
+    setError(null);
+    try {
+      const updates = Object.keys(editedRecords).map((id) => {
+        const originalRecord = records.find((rec) => rec._id === id);
+        const updatedRecord = { ...originalRecord, ...editedRecords[id] };
+        console.log('Sending data:', updatedRecord); 
+        return axios.patch(`http://localhost:5000/api/records/${id}`, updatedRecord);
+      });
+      await Promise.all(updates);
+      setEditedRecords({});
+      fetchRecords(); 
+      setShowAlert(true); 
+      setTimeout(() => {
+        setShowAlert(false); 
+      }, 4000);
+    } catch (err) {
+      console.error('Error updating records:', err);
+      setError('Failed to update records. Please check the data and try again.');
+    }
   };
 
   return (
     <Box>
+      {error && (
+        <Alert status="error" mb="4">
+          <AlertIcon />
+          {error}
+        </Alert>
+      )}
+      {showAlert && (
+        <Alert status="success" mb="4">
+          <AlertIcon />
+          Record updated and saved.
+        </Alert>
+      )}
       <Table variant="simple">
         <Thead>
           <Tr>
@@ -51,44 +83,52 @@ const RecordTable = ({ isAdmin }) => {
         </Thead>
         <Tbody>
           {records.map((record) => (
-            <Tr key={record.id}>
+            <Tr key={record._id}>
               <Td>{record.id}</Td>
               <Td>
                 <Input
-                  value={editedRecords[record.id]?.quantity || record.quantity}
-                  onChange={(e) => handleChange(e, record.id, 'quantity')}
+                  value={editedRecords[record._id]?.quantity ?? record.quantity}
+                  onChange={(e) => handleChange(e, record._id, 'quantity')}
                 />
               </Td>
               <Td>
                 <Input
-                  value={editedRecords[record.id]?.amount || record.amount}
-                  onChange={(e) => handleChange(e, record.id, 'amount')}
+                  value={editedRecords[record._id]?.amount ?? record.amount}
+                  onChange={(e) => handleChange(e, record._id, 'amount')}
                 />
               </Td>
               <Td>{record.postingYear}</Td>
               <Td>{record.postingMonth}</Td>
               <Td>
-                <Input
-                  value={editedRecords[record.id]?.actionType || record.actionType}
-                  onChange={(e) => handleChange(e, record.id, 'actionType')}
-                />
+                <Select
+                  value={editedRecords[record._id]?.actionType ?? record.actionType}
+                  onChange={(e) => handleChange(e, record._id, 'actionType')}
+                >
+                  <option value="Type 1">Type 1</option>
+                  <option value="Type 2">Type 2</option>
+                  <option value="Type 3">Type 3</option>
+                </Select>
               </Td>
               <Td>
                 <Input
-                  value={editedRecords[record.id]?.actionNumber || record.actionNumber}
-                  onChange={(e) => handleChange(e, record.id, 'actionNumber')}
-                />
-              </Td>
-              <Td>
-                <Input
-                  value={editedRecords[record.id]?.actionName || record.actionName}
-                  onChange={(e) => handleChange(e, record.id, 'actionName')}
+                  value={editedRecords[record._id]?.actionNumber ?? record.actionNumber}
+                  onChange={(e) => handleChange(e, record._id, 'actionNumber')}
                 />
               </Td>
               <Td>
                 <Select
-                  value={editedRecords[record.id]?.status || record.status}
-                  onChange={(e) => handleChange(e, record.id, 'status')}
+                  value={editedRecords[record._id]?.actionName ?? record.actionName}
+                  onChange={(e) => handleChange(e, record._id, 'actionName')}
+                >
+                  <option value="Action 1">Action 1</option>
+                  <option value="Action 2">Action 2</option>
+                  <option value="Action 3">Action 3</option>
+                </Select>
+              </Td>
+              <Td>
+                <Select
+                  value={editedRecords[record._id]?.status ?? record.status}
+                  onChange={(e) => handleChange(e, record._id, 'status')}
                   isDisabled={!isAdmin}
                 >
                   <option value="Pending">Pending</option>
@@ -99,8 +139,8 @@ const RecordTable = ({ isAdmin }) => {
               </Td>
               <Td>
                 <Input
-                  value={editedRecords[record.id]?.impact || record.impact}
-                  onChange={(e) => handleChange(e, record.id, 'impact')}
+                  value={editedRecords[record._id]?.impact ?? record.impact}
+                  onChange={(e) => handleChange(e, record._id, 'impact')}
                 />
               </Td>
             </Tr>

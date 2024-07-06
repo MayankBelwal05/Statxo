@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button } from '@chakra-ui/react';
 import RecordTable from '../components/RecordTable';
 import RecordForm from '../components/RecordForm';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const UserPage = () => {
   const [isAddingRecord, setIsAddingRecord] = useState(false);
-  const navigate = useNavigate();
+  const [records, setRecords] = useState([]);
 
-  const handleSubmit = async (formData) => {
-    console.log('Form Data:', formData); // Log the form data
+  useEffect(() => {
+    fetchRecords();
+  }, []);
+
+  const fetchRecords = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/records');
+      setRecords(response.data);
+    } catch (error) {
+      console.error('Error fetching records:', error);
+    }
+  };
+
+  const handleAddRecord = async (formData) => {
     try {
       const response = await axios.post('http://localhost:5000/api/records', formData);
-      console.log('Record saved successfully');
-      navigate('/user');
+      console.log('Record added successfully:', response.data);
+      setRecords((prevRecords) => [...prevRecords, response.data]); 
+      setIsAddingRecord(false); 
+      alert('Record added successfully');
+      fetchRecords();
     } catch (error) {
-      console.error('Error saving record:', error);
+      console.error('Error adding record:', error);
     }
   };
 
@@ -24,13 +38,13 @@ const UserPage = () => {
     <Box>
       <Box p="4">
         {isAddingRecord ? (
-          <RecordForm onSubmit={handleSubmit} onClose={() => setIsAddingRecord(false)} />
+          <RecordForm onSubmit={handleAddRecord} onClose={() => setIsAddingRecord(false)} />
         ) : (
           <Button colorScheme="teal" onClick={() => setIsAddingRecord(true)}>
             Add Record
           </Button>
         )}
-        <RecordTable isAdmin={false} />
+        <RecordTable records={records} isAdmin={false} />
       </Box>
     </Box>
   );
